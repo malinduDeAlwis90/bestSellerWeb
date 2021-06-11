@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "bestSellerWeb"
+    }
+  },
+  "defaultProject": "bestSellerWeb",
+  "cli": {
+    "analytics": "b450111e-a4b8-4256-b701-b735ea62ccf7"
+  }
 }
