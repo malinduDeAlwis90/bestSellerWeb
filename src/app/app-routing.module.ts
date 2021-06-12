@@ -4,9 +4,9 @@ import {PriceListComponent} from './price-list/price-list.component';
 import {PriceCalculatorComponent} from './price-calculator/price-calculator.component';
 
 const routes: Routes = [
-  {path:  '', pathMatch:  'full', redirectTo:  'home'},
   {path: 'price-list', component: PriceListComponent},
-  {path: 'price-calculator', component: PriceCalculatorComponent}
+  {path: 'price-calculator', component: PriceCalculatorComponent},
+  {path:  '**', pathMatch:  'full', redirectTo:  'price-list'},
 ];
 
 @NgModule({
