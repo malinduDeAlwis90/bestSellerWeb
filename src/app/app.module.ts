@@ -7,6 +7,8 @@ import { FooterComponent } from './footer/footer.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { PriceCalculatorComponent } from './price-calculator/price-calculator.component';
 import {AppRoutingModule} from './app-routing.module';
+import {HttpClientModule} from '@angular/common/http';
+import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,13 @@ import {AppRoutingModule} from './app-routing.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    LoggerModule.forRoot({
+      // serverLoggingUrl: `${BASE_URL}/logs`,
+      level: NgxLoggerLevel.INFO,
+      serverLogLevel: NgxLoggerLevel.INFO
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

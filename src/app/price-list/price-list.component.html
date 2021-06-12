@@ -2,33 +2,49 @@
   <table class="table table-hover">
     <thead>
     <tr>
-      <th>#</th>
+      <th>Key</th>
       <th>Name</th>
-      <th>Email</th>
-      <th>Actions</th>
+      <th>Carton Price</th>
+      <th>Carton size</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let contact of [1,2,3,4]">
+    <tr [class.active]="product === selectedProduct" *ngFor="let product of productList">
 
-      <td>123</td>
-      <td> Name</td>
-      <td> malindu@hotmail.com</td>
+      <td>{{product.key}}</td>
+      <td>{{product.name}}</td>
+      <td>{{product.price}}</td>
+      <td>{{product.cartonSize}}</td>
       <td>
-        <button class="btn btn-primary" > Show details</button>
+        <button class="btn btn-primary" (click)="selectProduct(product)"> Show Price</button>
       </td>
     </tr>
     </tbody>
   </table>
-  <div class="card text-center" >
+  <div class="card text-center" *ngIf="selectedProduct">
     <div class="card-header">
-      # 123
+      {{selectedProduct.name}}
     </div>
-    <div class="card-block">
-      <h4 class="card-title">name</h4>
-      <p class="card-text">
-        description
-      </p>
+    <div class="card-body">
+      <table class="table table-hover">
+        <colgroup>
+          <col span="1" class="w-50">
+          <col span="1" class="w-50">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>Units</th>
+          <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let price of priceList; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{price}}</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
