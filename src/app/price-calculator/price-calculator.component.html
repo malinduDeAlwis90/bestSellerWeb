@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-2 card-item" *ngFor="let product of productMap | keyvalue">
       <div class="card">
-        <app-product-card [product]="product.value" [cartItem]="cart[product.key]" (productCountChanged)="productCountChanged($event)"></app-product-card>
+        <app-product-card [product]="product.value" [cartItem]="cart.items[product.key]" (productCountChanged)="productCountChanged($event)"></app-product-card>
       </div>
     </div>
   </div>
