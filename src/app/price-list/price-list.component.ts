@@ -3,6 +3,7 @@ import {ProductService} from '../product.service';
 import {Product} from '../model/product';
 import {first} from 'rxjs/operators';
 import {NGXLogger} from 'ngx-logger';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-price-list',
@@ -15,7 +16,7 @@ export class PriceListComponent implements OnInit {
   public selectedProduct: Product;
   public priceList: Array<number>;
 
-  constructor(private productService: ProductService, private logger: NGXLogger) { }
+  constructor(private productService: ProductService, private logger: NGXLogger, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getProductList();
@@ -26,27 +27,27 @@ export class PriceListComponent implements OnInit {
     this.getPriceList(product.key);
   }
 
-  private getProductList(): void { // todo unsubscribe ect
+  private getProductList(): void {
     this.productService.getProductList().pipe(first()).subscribe(
       productList => {
         this.productList = productList;
       },
       error => {
         this.logger.error(error);
-        // todo display error
+        this.snackBar.open(error.message, 'Dismiss');
       }
 
     );
   }
 
-  private getPriceList(key: string): void { // todo unsubscribe ect
+  private getPriceList(key: string): void {
     this.productService.getPriceList(key).pipe(first()).subscribe(
       priceList => {
         this.priceList = priceList;
       },
       error => {
         this.logger.error(error);
-        // todo display error
+        this.snackBar.open(error.message, 'Dismiss');
       }
 
     );

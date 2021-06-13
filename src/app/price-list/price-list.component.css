@@ -1,3 +1,9 @@
 .active {
   background: #c2c3c4;
 }
+
+.table-header {
+  background: #0d6efd;
+  color: white;
+  height: 50px;
+}

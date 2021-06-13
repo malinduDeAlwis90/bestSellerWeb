@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {Product} from '../model/product';
+import {first} from 'rxjs/operators';
+import {ProductService} from '../product.service';
+import {NGXLogger} from 'ngx-logger';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-price-calculator',
@@ -7,9 +12,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PriceCalculatorComponent implements OnInit {
 
-  constructor() { }
+  public productList: Array<Product>;
+
+  constructor(private productService: ProductService, private logger: NGXLogger, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.getProductList();
   }
 
+  private getProductList(): void {
+    this.productService.getProductList().pipe(first()).subscribe(
+      productList => {
+        this.productList = productList;
+      },
+      error => {
+        this.logger.error(error);
+        this.snackBar.open(error.message, 'Dismiss');
+      }
+
+    );
+  }
+
+  public productCountChanged(change: {key: string, value: number , isUnits: boolean}): void {
+    this.productService.updateProductCount(change);
+  }
 }

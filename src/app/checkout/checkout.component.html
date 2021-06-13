@@ -1,0 +1,26 @@
+<div class="container">
+  <h5 class="card-title">Checkout</h5>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Carton count</th>
+      <th>Unit count</th>
+      <th>Total</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of cart | keyvalue">
+
+      <td>{{product.value.key}}</td>
+      <td>{{product.value.cartonCount}}</td>
+      <td>{{product.value.unitCount}}</td>
+      <td>{{product.value.price}}</td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+  <button disabled class="btn btn-primary right">Checkout</button>
+</div>
+
