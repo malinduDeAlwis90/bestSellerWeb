@@ -7,17 +7,18 @@
       <th>Carton count</th>
       <th>Unit count</th>
       <th>Total</th>
-      <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let product of cart | keyvalue">
-
+    <tr *ngFor="let product of cart.items | keyvalue">
       <td>{{product.value.key}}</td>
       <td>{{product.value.cartonCount}}</td>
       <td>{{product.value.unitCount}}</td>
-      <td>{{product.value.price}}</td>
-      <td></td>
+      <td>{{product.value.price | number:'1.2-2'}}</td>
+    </tr>
+    <tr class="active">
+      <td colspan="3">Total</td>
+      <td>{{cart.total | number:'1.2-2'}}</td>
     </tr>
     </tbody>
   </table>

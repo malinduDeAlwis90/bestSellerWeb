@@ -3,7 +3,7 @@
   <div class="card-body">
     <h5 class="card-title text-center">{{product.name}}</h5>
     <div class="card-text">
-      <span>Carton price:</span><span class="right">{{product.price}}</span>
+      <span>Carton price:</span><span class="right">{{product.price | number:'1.2-2'}}</span>
     </div>
     <div class="card-text">
       <span>Units per carton:</span><span class="right">{{product.cartonSize}}</span>

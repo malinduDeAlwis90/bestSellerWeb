@@ -16,13 +16,12 @@ const BASE_URL = `${environment.apiUrl}${(SUFFIX)}`;
 export class ProductService {
 
   private checkoutInfoUrl = BASE_URL + '/checkout-info/';
-  private _cart: {[key: string]: CartItem} = {};
-  private total: number;
+  private _cart: { items: {[key: string]: CartItem}, total: number } = {items: {}, total: 0};
 
   constructor(private http: HttpClient, private logger: NGXLogger) {
   }
 
-  get cart(): { [key: string]: CartItem } {
+  get cart(): { items: {[key: string]: CartItem}, total: number } {
     return this._cart;
   }
 
@@ -38,11 +37,11 @@ export class ProductService {
 
   public updateProductCount(change: { key: string; value: number; isUnits: boolean }): void {
     this.logger.info('Updating product count. Key: ' + change.key);
-    let cartItem = this._cart[change.key];
+    let cartItem = this._cart.items[change.key];
 
     if (!cartItem && change.value > 0) {
       cartItem = {key: change.key} as CartItem;
-      this._cart[change.key] = cartItem;
+      this._cart.items[change.key] = cartItem;
     }
 
     if (cartItem) {
@@ -66,8 +65,9 @@ export class ProductService {
 
   public getCheckoutInfo(): Observable<any> {
     this.logger.info('Getting checkout info.');
+    this._cart.total = 0;
     return this.http.post<{prices: {[key: string]: number}, total: number}>(
-      this.checkoutInfoUrl, this._cart
+      this.checkoutInfoUrl, this._cart.items
     ).pipe(map(response => {
       this.logger.info('Checkout info retrieved successfully.');
       this.handleCheckoutInfo(response.prices, response.total);
@@ -76,18 +76,17 @@ export class ProductService {
   }
 
   private handleCheckoutInfo(prices: { [key: string]: number }, total: number): void {
-    this.total = total;
-    const cart = this._cart;
+    this._cart.total = total;
     for (const key in prices) {
       if (prices.hasOwnProperty(key)) {
-        if ( this._cart[key]) {
-          this._cart[key].price = prices[key];
+        if ( this._cart.items[key]) {
+          this._cart.items[key].price = prices[key];
         }
       }
     }
   }
 
   private removeCartItem(key: string): void {
-    delete this._cart[key];
+    delete this._cart.items[key];
   }
 }

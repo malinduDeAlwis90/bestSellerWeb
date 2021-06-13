@@ -6,3 +6,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .right {
   float: right;
 }
+
+.active {
+  background: #c2c3c4;
+}
