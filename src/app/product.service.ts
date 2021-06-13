@@ -81,8 +81,22 @@ export class ProductService {
   public getCheckoutInfo(): Observable<any> {
     this.logger.info('Getting checkout info.');
     this._cart.total = 0;
+    const cartItems = this._cart.items;
+    const request = {};
+
+    for (const key in cartItems) {
+      if (cartItems.hasOwnProperty(key)) {
+        const cartItem = cartItems[key];
+        request[key] = {
+          key: cartItem.key,
+          cartonCount: cartItem.cartonCount,
+          unitCount: cartItem.unitCount
+        };
+      }
+    }
+
     return this.http.post<{prices: {[key: string]: number}, total: number}>(
-      this.checkoutInfoUrl, this._cart.items
+      this.checkoutInfoUrl, request
     ).pipe(map(response => {
       this.logger.info('Checkout info retrieved successfully.');
       this.handleCheckoutInfo(response.prices, response.total);
