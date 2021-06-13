@@ -26,9 +26,9 @@ export class ProductService {
     return this._cart;
   }
 
-  public getProductList(): Observable<Array<Product>> {
+  public getProductList(): Observable<{[key: string]: Product}> {
     this.logger.info('Getting product list.');
-    return this.http.get<Array<Product>>(BASE_URL);
+    return this.http.get<{[key: string]: Product}>(BASE_URL);
   }
 
   public getPriceList(key: string): Observable<Array<number>> {

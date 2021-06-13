@@ -30,7 +30,7 @@ export class PriceListComponent implements OnInit {
   private getProductList(): void {
     this.productService.getProductList().pipe(first()).subscribe(
       productList => {
-        this.productList = productList;
+        this.productList = Object.values(productList);
       },
       error => {
         this.logger.error(error);
