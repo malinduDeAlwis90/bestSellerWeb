@@ -126,4 +126,15 @@ export class ProductService {
       }
     }
   }
+
+  public clearCart(): void {
+    this.logger.info('Clearing cart.');
+    for (const key in this.cart.items) {
+      if (this.cart.items.hasOwnProperty(key)) {
+        delete this.cart.items[key];
+        this.cart.total = 0;
+      }
+    }
+    this.logger.info('Clearing cart success.');
+  }
 }
