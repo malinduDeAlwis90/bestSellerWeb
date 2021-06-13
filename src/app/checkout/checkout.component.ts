@@ -10,6 +10,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+
+  public productMap = this.productService.productMap;
   public cart: { items: { [p: string]: CartItem }; total: number } = this.productService.cart;
 
   constructor(private productService: ProductService, private logger: NGXLogger, private snackBar: MatSnackBar) { }

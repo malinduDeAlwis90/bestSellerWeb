@@ -12,32 +12,18 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class PriceListComponent implements OnInit {
 
-  public productList: Array<Product>;
+  public productMap = this.productService.productMap;
   public selectedProduct: Product;
   public priceList: Array<number>;
 
   constructor(private productService: ProductService, private logger: NGXLogger, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.getProductList();
   }
 
   public selectProduct(product: Product): void{
     this.selectedProduct = product;
     this.getPriceList(product.key);
-  }
-
-  private getProductList(): void {
-    this.productService.getProductList().pipe(first()).subscribe(
-      productList => {
-        this.productList = Object.values(productList);
-      },
-      error => {
-        this.logger.error(error);
-        this.snackBar.open(error.message, 'Dismiss');
-      }
-
-    );
   }
 
   private getPriceList(key: string): void {

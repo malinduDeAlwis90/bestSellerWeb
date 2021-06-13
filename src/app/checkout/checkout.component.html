@@ -11,7 +11,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let product of cart.items | keyvalue">
-      <td>{{product.value.key}}</td>
+      <td>{{productMap[product.value.key]?.name}}</td>
       <td>{{product.value.cartonCount}}</td>
       <td>{{product.value.unitCount}}</td>
       <td>{{product.value.price | number:'1.2-2'}}</td>

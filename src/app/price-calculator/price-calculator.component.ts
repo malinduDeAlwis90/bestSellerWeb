@@ -12,26 +12,12 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class PriceCalculatorComponent implements OnInit {
 
-  public productList: Array<Product>;
+  public productMap = this.productService.productMap;
   public cart = this.productService.cart;
 
   constructor(private productService: ProductService, private logger: NGXLogger, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.getProductList();
-  }
-
-  private getProductList(): void {
-    this.productService.getProductList().pipe(first()).subscribe(
-      productList => {
-        this.productList = Object.values(productList);
-      },
-      error => {
-        this.logger.error(error);
-        this.snackBar.open(error.message, 'Dismiss');
-      }
-
-    );
   }
 
   public productCountChanged(change: {key: string, value: number , isUnits: boolean}): void {

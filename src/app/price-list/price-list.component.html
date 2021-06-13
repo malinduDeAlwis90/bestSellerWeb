@@ -10,14 +10,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr [class.active]="product === selectedProduct" *ngFor="let product of productList">
+    <tr [class.active]="product === selectedProduct" *ngFor="let product of productMap | keyvalue">
 
       <td>{{product.key}}</td>
-      <td>{{product.name}}</td>
-      <td>{{product.price | number:'1.2-2'}}</td>
-      <td>{{product.cartonSize}}</td>
+      <td>{{product.value.name}}</td>
+      <td>{{product.value.price | number:'1.2-2'}}</td>
+      <td>{{product.value.cartonSize}}</td>
       <td>
-        <button class="btn btn-primary" (click)="selectProduct(product)"> Show Price</button>
+        <button class="btn btn-primary" (click)="selectProduct(product.value)"> Show Price</button>
       </td>
     </tr>
     </tbody>

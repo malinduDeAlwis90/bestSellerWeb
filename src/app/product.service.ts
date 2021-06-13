@@ -6,6 +6,7 @@ import {Product} from './model/product';
 import {environment} from '../environments/environment';
 import {CartItem} from './model/cart-item';
 import {map} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 const SUFFIX = '/api/products';
 const BASE_URL = `${environment.apiUrl}${(SUFFIX)}`;
@@ -17,17 +18,31 @@ export class ProductService {
 
   private checkoutInfoUrl = BASE_URL + '/checkout-info/';
   private _cart: { items: {[key: string]: CartItem}, total: number } = {items: {}, total: 0};
+  private _productMap: {[key: string]: Product} = {};
 
-  constructor(private http: HttpClient, private logger: NGXLogger) {
+  constructor(private http: HttpClient, private logger: NGXLogger, private snackBar: MatSnackBar) {
   }
 
   get cart(): { items: {[key: string]: CartItem}, total: number } {
     return this._cart;
   }
 
-  public getProductList(): Observable<{[key: string]: Product}> {
+  get productMap(): { [p: string]: Product } {
+    return this._productMap;
+  }
+
+  public getProductMap(): Observable<void> {
     this.logger.info('Getting product list.');
-    return this.http.get<{[key: string]: Product}>(BASE_URL);
+    return this.http.get<{[key: string]: Product}>(BASE_URL).pipe(map(productMap => {
+      this.populateProductMap(productMap);
+        // this.productList.length = 0;
+        // this.productList = Object.values(productList);
+      },
+      error => {
+        this.logger.error(error);
+        this.snackBar.open(error.message, 'Dismiss');
+      }
+    ));
   }
 
   public getPriceList(key: string): Observable<Array<number>> {
@@ -88,5 +103,13 @@ export class ProductService {
 
   private removeCartItem(key: string): void {
     delete this._cart.items[key];
+  }
+
+  private populateProductMap(productMap: {[key: string]: Product }): void {
+    for (const key in productMap) {
+      if (productMap.hasOwnProperty(key)) {
+        this._productMap[key] = productMap[key];
+      }
+    }
   }
 }
